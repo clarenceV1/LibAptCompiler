@@ -3,7 +3,6 @@ package com.cai.apt.processor;
 import com.cai.annotation.apt.Extra;
 import com.cai.annotation.apt.Router;
 import com.cai.annotation.apt.SceneTransition;
-import com.cai.apt.AnnotationProcessor;
 import com.cai.apt.RouterActivityModel;
 import com.cai.apt.utils.Utils;
 import com.squareup.javapoet.ClassName;

@@ -1,7 +1,5 @@
 package com.cai.apt.processor;
 
-import com.cai.apt.AnnotationProcessor;
-
 import javax.annotation.processing.RoundEnvironment;
 
 /**

@@ -1,6 +1,7 @@
-package com.cai.apt;
+package com.cai.apt.processor;
 
 import com.cai.apt.processor.InstanceProcessor;
+import com.cai.apt.processor.ProtocolProcessor;
 import com.cai.apt.processor.RouterProcessor;
 import com.google.auto.service.AutoService;
 
@@ -21,7 +22,9 @@ import javax.lang.model.util.Elements;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)//java版本支持
 @SupportedAnnotationTypes({//标注注解处理器支持的注解类型
         "com.cai.annotation.apt.Router",
-        "com.cai.annotation.apt.InstanceFactory"
+        "com.cai.annotation.apt.InstanceFactory",
+        "com.cai.annotation.apt.ProtocolShadow",
+        "com.cai.annotation.apt.Protocol"
 })
 public class AnnotationProcessor extends AbstractProcessor {
     public Filer mFiler; //文件相关的辅助类
@@ -33,8 +36,9 @@ public class AnnotationProcessor extends AbstractProcessor {
         mFiler = processingEnv.getFiler();
         mElements = processingEnv.getElementUtils();
         mMessager = processingEnv.getMessager();
-        new RouterProcessor().process(roundEnv, this);
-        new InstanceProcessor().process(roundEnv, this);
+//        new RouterProcessor().process(roundEnv, this);
+//        new InstanceProcessor().process(roundEnv, this);
+        new ProtocolProcessor().process(roundEnv, this);
         return true;
     }
 }

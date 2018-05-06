@@ -2,7 +2,6 @@ package com.cai.apt.processor;
 
 import com.cai.annotation.apt.InstanceFactory;
 import com.cai.annotation.aspect.MemoryCache;
-import com.cai.apt.AnnotationProcessor;
 import com.cai.apt.utils.Utils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
@@ -51,21 +50,7 @@ public class InstanceProcessor implements IProcessor {
                 ClassName currentType = ClassName.get(element);
                 if (mList.contains(currentType)) continue;
                 mList.add(currentType);
-                //             String className = null;
-//                try {
-//                    Class<?> clazz = element.getAnnotation(InstanceFactory.class).value();
-//                    className = clazz.getCanonicalName();
-//                } catch (MirroredTypeException mte) {
-//                    DeclaredType classTypeMirror = (DeclaredType) mte.getTypeMirror();
-//                    TypeElement classTypeElement = (TypeElement) classTypeMirror.asElement();
-//                    className = classTypeElement.getQualifiedName().toString();
-//                } catch (Exception e) {
-//                }
-//                if (className != null && !className.equals(InstanceFactory.class.getName())) {
-//                    blockBuilder.addStatement("case $S: return  new $T()", currentType.simpleName(), Utils.getType(className));//初始化Repository
-//                } else {
                 blockBuilder.addStatement("case $S: return  new $T()", currentType.simpleName(), currentType);//初始化Presenter
-                //               }
             }
             blockBuilder.addStatement("default: return mClass.newInstance()");
             blockBuilder.endControlFlow();

@@ -1,8 +1,5 @@
 package com.cai.apt.processor;
 
-import com.cai.apt.processor.InstanceProcessor;
-import com.cai.apt.processor.ProtocolProcessor;
-import com.cai.apt.processor.RouterProcessor;
 import com.google.auto.service.AutoService;
 
 import java.util.Set;
@@ -10,6 +7,7 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -24,7 +22,8 @@ import javax.lang.model.util.Elements;
         "com.cai.annotation.apt.Router",
         "com.cai.annotation.apt.InstanceFactory",
         "com.cai.annotation.apt.ProtocolShadow",
-        "com.cai.annotation.apt.Protocol"
+        "com.cai.annotation.apt.Protocol",
+        "com.cai.annotation.apt.Bind"
 })
 public class AnnotationProcessor extends AbstractProcessor {
     public Filer mFiler; //文件相关的辅助类
@@ -32,13 +31,20 @@ public class AnnotationProcessor extends AbstractProcessor {
     public Messager mMessager; //日志相关的辅助类
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    public synchronized void init(ProcessingEnvironment processingEnvironment) {
+        super.init(processingEnvironment);
         mFiler = processingEnv.getFiler();
         mElements = processingEnv.getElementUtils();
         mMessager = processingEnv.getMessager();
+    }
+
+    @Override
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 //        new RouterProcessor().process(roundEnv, this);
 //        new InstanceProcessor().process(roundEnv, this);
+        new BindProcessor().process(roundEnv,this);
         new ProtocolProcessor().process(roundEnv, this);
         return true;
+
     }
 }
